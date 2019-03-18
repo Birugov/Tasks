@@ -1,0 +1,4 @@
+Animal Животное
+Environment Среда
+Floor Пол
+Beach Пляж
