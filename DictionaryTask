@@ -1,0 +1,92 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace ConsoleApp23
+{
+    class Program
+    {
+        static void Main()
+        {
+            //Console.OutputEncoding = Encoding.UTF8;
+            var lines = File.ReadAllLines(@"C:\Users\Asus\Desktop\TASK.txt", Encoding.Default);
+            var FixedDict = new Dictionary(lines);
+            FixedDict.RemoveElement();
+            FixedDict.PrintDictionary();
+            FixedDict.FindUniqueElem();
+            FixedDict.TextTranslation();
+            Console.ReadKey();
+        }
+
+    }
+}
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp23
+{
+    class Dictionary
+    {
+        public static Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
+        public Dictionary(String[] filename)
+        {
+            var lines = filename;
+            foreach (var line in lines)
+            {
+                var dic = line.Split(' ');
+                dictionary.Add(dic[0], dic[1]);
+            }
+        }
+
+        public void PrintDictionary()
+        {
+            foreach (var dictKeys in dictionary)
+                Console.WriteLine("{0} - {1}", dictKeys.Key, dictKeys.Value);
+        }
+        public void RemoveElement()
+        {
+            string k = "Beach";
+            dictionary.Remove(k);
+        }
+        public void FindUniqueElem()
+        {
+            var sum = 0;
+            foreach (var value in dictionary.Values)
+            {
+                var TransValues = value.Split(',');
+                if (TransValues.Length == 1)
+                    sum++;
+            }
+            Console.WriteLine("Количество слов с одним переводом-{0}", sum);
+        }
+        public void TextTranslation()
+        {
+
+            var Text = File.ReadAllLines(@"C:\Users\Asus\Desktop\text.txt");
+            foreach (var TextWord in Text)
+            {
+                var SplitedText = TextWord.Split(' ');
+                for (var i = 0; i < SplitedText.Length; i++)
+                {
+                    foreach (var word in dictionary)
+                    {
+                        if (word.Key == SplitedText[i])
+                            SplitedText[i] = word.Value;
+                        Text = SplitedText;
+                    }
+                }
+            }
+            for (var i = 0; i < Text.Length; i++)
+                Console.Write(Text[i]+' ');
+
+        }
+    }
+}
